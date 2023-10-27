@@ -11,6 +11,8 @@ import pandas as pd
 from dateutil.relativedelta import relativedelta
 import datetime as dt
 from babel.numbers import format_currency
+import requests
+import json
 
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
