@@ -9,3 +9,4 @@ gunicorn
 dash_table
 babel
 glob2
+requests
