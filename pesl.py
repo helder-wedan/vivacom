@@ -124,15 +124,15 @@ def arquivos_pesl():
     else:
         print(f"Falha na solicitação HTTP. Código de status: {response.status_code}")
     return base_completa_pesl
-arquivos_pesl = arquivos_pesl()
+arquivospesl = arquivos_pesl()
 
-print(arquivos_pesl)
+print(arquivospesl)
 
 def calculo_pesl(data):
     mes = pd.to_datetime(data)
     mes_inicio = mes - relativedelta(months=1)
     mes_fim = mes + relativedelta(months=1)
-    base_pesl = arquivos_pesl[data]
+    base_pesl = arquivospesl[data]
     pesl = base_pesl[(base_pesl.DATA >= mes_inicio.strftime('%m-%Y'))&(base_pesl.DATA < mes_fim)]#.sum(numeric_only=True)
     pesl = pesl.groupby(pesl.DATA.dt.year).sum(numeric_only=True).reset_index()
     vinculado = base_pesl.groupby(base_pesl.DATA.dt.year).sum(numeric_only=True).reset_index()
