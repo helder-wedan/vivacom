@@ -8,4 +8,4 @@ numpy
 gunicorn
 dash_table
 babel
-glob
+glob2
