@@ -15,13 +15,13 @@ from pesl import arquivos_pesl, calculo_pesl, tela_pesl
 
 # =======================
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
-#server = app.server
+server = app.server
 # ========================
 
 
 ########################### TRATAMENTO DE DADOS
 
-dir = r'G:\Meu Drive\Wedan\VIVACOM\BI PROVISOES\dataset'
+dir = 'dataset'
 dir_peona = '/BasePEONA_092023.txt'
 
 names=['DATA', 'PLANO','RECEITAS','DESPESAS']
