@@ -96,8 +96,6 @@ def header():
 
 
 def arquivos_pesl():
-    diretorio = '\dataset\pesl'
-    arquivos = os.listdir(diretorio)
     base_completa_pesl={}
 
     # Defina o proprietário do repositório e o nome do repositório
@@ -116,12 +114,6 @@ def arquivos_pesl():
             # A resposta contém detalhes dos arquivos no diretório
             for item in content:
                 if "name" in item:
-                    print(item["name"])
-
-#    for arquivo in arquivos:
-#        caminho_arquivo = os.path.join(diretorio,arquivo)
-#        txt = glob.glob(os.path.join(caminho_arquivo, "*.txt"))
-
                     base_pesl = pd.read_csv(directory_path+item["name"],sep='#',names=['PLANO','PRESTADOR','DATA','DESPESA'])
                     base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%d/%m/%Y')
                     base_pesl = base_pesl.groupby([pd.Grouper(key = 'DATA', freq = 'M')]).sum().reset_index().drop(['PLANO','PRESTADOR'],axis=1)
