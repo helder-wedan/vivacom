@@ -94,18 +94,31 @@ def header():
 
 
 def arquivos_pesl():
-    diretorio = 'dataset\pesl'
-    arquivos = os.listdir(diretorio)
-    base_completa_pesl={}
+    # Defina o caminho para o diretório que você deseja listar
+    directory_path = "dataset/pesl/"
 
-    for arquivo in arquivos:
-        caminho_arquivo = os.path.join(diretorio,arquivo)
-        txt = glob.glob(os.path.join(caminho_arquivo, "*.txt"))
+    # Faça uma solicitação HTTP para a API do GitHub
+    url = f"https://api.github.com/repos/{owner}/{repo}/contents/{directory_path}"
+    response = requests.get(url)
 
-        base_pesl = pd.read_csv(caminho_arquivo,sep='#',names=['PLANO','PRESTADOR','DATA','DESPESA'])
-        base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%d/%m/%Y')
-        base_pesl = base_pesl.groupby([pd.Grouper(key = 'DATA', freq = 'M')]).sum().reset_index().drop(['PLANO','PRESTADOR'],axis=1)
-        base_completa_pesl[str(max(base_pesl.DATA).strftime('%m-%Y'))]=base_pesl
+    # Verifique se a solicitação foi bem-sucedida
+    if response.status_code == 200:
+        # Analise a resposta JSON
+        content = json.loads(response.text)
+        if isinstance(content, list):
+            # A resposta contém detalhes dos arquivos no diretório
+            for item in content:
+                if "name" in item:
+                    print(item["name"])
+
+#    for arquivo in arquivos:
+#        caminho_arquivo = os.path.join(diretorio,arquivo)
+#        txt = glob.glob(os.path.join(caminho_arquivo, "*.txt"))
+
+                    base_pesl = pd.read_csv(directory_path+item["name"],sep='#',names=['PLANO','PRESTADOR','DATA','DESPESA'])
+                    base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%d/%m/%Y')
+                    base_pesl = base_pesl.groupby([pd.Grouper(key = 'DATA', freq = 'M')]).sum().reset_index().drop(['PLANO','PRESTADOR'],axis=1)
+                    base_completa_pesl[str(max(base_pesl.DATA).strftime('%m-%Y'))]=base_pesl
     return base_completa_pesl
 
 def calculo_pesl(data):
