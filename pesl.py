@@ -15,7 +15,7 @@ from babel.numbers import format_currency
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.FLATLY])
 
 
-dir = r'G:\Meu Drive\Wedan\VIVACOM\BI PROVISOES\dataset'
+dir = 'dataset'
 dir_peona = '/BasePEONA_092023.txt'
 names=['DATA', 'PLANO','RECEITAS','DESPESAS']
 
