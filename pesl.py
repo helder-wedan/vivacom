@@ -94,7 +94,7 @@ def header():
 
 
 def arquivos_pesl():
-    diretorio = r'G:\Meu Drive\Wedan\VIVACOM\BI PROVISOES\dataset\pesl'
+    diretorio = 'dataset\pesl'
     arquivos = os.listdir(diretorio)
     base_completa_pesl={}
 
