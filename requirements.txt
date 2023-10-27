@@ -8,5 +8,4 @@ numpy
 gunicorn
 dash_table
 babel
-os
 glob
