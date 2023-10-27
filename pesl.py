@@ -174,6 +174,14 @@ def tela_pesl():
                                 "textAlign": "center",
                             },
                             ),
+                            dcc.Loading(
+                                id="loading-1",
+                                type="dot",
+                                style={
+                                    "margin-top": "40px",
+                                },
+                            ),
+                    
                         ], width=2),
 
                 dbc.Col([
