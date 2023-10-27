@@ -96,13 +96,14 @@ def header():
 
 
 def arquivos_pesl():
-    # Defina o caminho para o diretório que você deseja listar
-    directory_path = "dataset/pesl/"
+    diretorio = '\dataset\pesl'
+    arquivos = os.listdir(diretorio)
+    base_completa_pesl={}
 
     # Defina o proprietário do repositório e o nome do repositório
     owner = "helder-wedan"
     repo = "vivacom"
-
+    
     # Faça uma solicitação HTTP para a API do GitHub
     url = f"https://api.github.com/repos/{owner}/{repo}/contents/{directory_path}"
     response = requests.get(url)
