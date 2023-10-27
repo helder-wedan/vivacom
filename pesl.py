@@ -119,6 +119,10 @@ def arquivos_pesl():
                     base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%d/%m/%Y')
                     base_pesl = base_pesl.groupby([pd.Grouper(key = 'DATA', freq = 'M')]).sum().reset_index().drop(['PLANO','PRESTADOR'],axis=1)
                     base_completa_pesl[str(max(base_pesl.DATA).strftime('%m-%Y'))]=base_pesl
+        else:
+        print("A resposta não é uma lista JSON")
+    else:
+        print(f"Falha na solicitação HTTP. Código de status: {response.status_code}")
     return base_completa_pesl
 arquivos_pesl = arquivos_pesl()
 
