@@ -370,7 +370,8 @@ def update_graphs(data):
 # PESL ===============================    
 
 @app.callback(
-    Output('tabela_pesl','children'),    
+[    Output("loading-1", "children"),
+    Output('tabela_pesl','children')],    
     Input('select-ano2', 'value'),
 )
 def update_table_pesl(data):
@@ -417,7 +418,7 @@ def update_table_pesl(data):
                      },
     )
 
-    return tabela
+    return '', tabela
 
 @app.callback(
         Output("graph_pesl", 'figure'),
