@@ -1,0 +1,13 @@
+dash
+dash_core_components
+dash_html_components
+dash_bootstrap_components
+dask
+plotly
+pandas
+numpy
+gunicorn
+openpyxl
+dash_table
+dash_daq
+babel
