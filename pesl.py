@@ -101,7 +101,7 @@ def arquivos_pesl():
     # Defina o proprietário do repositório e o nome do repositório
     owner = "helder-wedan"
     repo = "vivacom"
-    
+    directory_path = "dataset/pesl/"
     # Faça uma solicitação HTTP para a API do GitHub
     url = f"https://api.github.com/repos/{owner}/{repo}/contents/{directory_path}"
     response = requests.get(url)
