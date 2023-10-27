@@ -115,7 +115,7 @@ def arquivos_pesl():
             for item in content:
                 if "name" in item:
                     print(item["name"])
-                    base_pesl = pd.read_csv(directory_path+item["name"],sep='#',names=['PLANO','PRESTADOR','DATA','DESPESA'])
+                    base_pesl = pd.read_csv(directory_path+'/'+item["name"],sep='#',names=['PLANO','PRESTADOR','DATA','DESPESA'])
                     base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%d/%m/%Y')
                     base_pesl = base_pesl.groupby([pd.Grouper(key = 'DATA', freq = 'M')]).sum().reset_index().drop(['PLANO','PRESTADOR'],axis=1)
                     base_completa_pesl[str(max(base_pesl.DATA).strftime('%m-%Y'))]=base_pesl
