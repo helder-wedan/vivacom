@@ -94,45 +94,14 @@ def header():
 
     return header_geral
 
-
-def arquivos_pesl():
-    base_completa_pesl={}
-
-    # Defina o proprietário do repositório e o nome do repositório
-    owner = "helder-wedan"
-    repo = "vivacom"
-    directory_path = "dataset/pesl/"
-    # Faça uma solicitação HTTP para a API do GitHub
-    url = f"https://api.github.com/repos/{owner}/{repo}/contents/{directory_path}"
-    response = requests.get(url)
-
-    # Verifique se a solicitação foi bem-sucedida
-    if response.status_code == 200:
-        # Analise a resposta JSON
-        content = json.loads(response.text)
-        if isinstance(content, list):
-            # A resposta contém detalhes dos arquivos no diretório
-            for item in content:
-                if "name" in item:
-                    print(item["name"])
-                    base_pesl = pd.read_csv(directory_path+'/'+item["name"],sep='#',names=['PLANO','PRESTADOR','DATA','DESPESA'])
-                    base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%d/%m/%Y')
-                    base_pesl = base_pesl.groupby([pd.Grouper(key = 'DATA', freq = 'M')]).sum().reset_index().drop(['PLANO','PRESTADOR'],axis=1)
-                    base_completa_pesl[str(max(base_pesl.DATA).strftime('%m-%Y'))]=base_pesl
-        else:
-            print("A resposta não é uma lista JSON")
-    else:
-        print(f"Falha na solicitação HTTP. Código de status: {response.status_code}")
-    return base_completa_pesl
-arquivospesl = arquivos_pesl()
-
-print(arquivospesl)
+arquivos_pesl = pd.read_csv('dataset/pesl_2023_09.csv')
 
 def calculo_pesl(data):
     mes = pd.to_datetime(data)
     mes_inicio = mes - relativedelta(months=1)
     mes_fim = mes + relativedelta(months=1)
-    base_pesl = arquivospesl[data]
+    base_pesl = arquivos_pesl[arquivos_pesl.competencia == data].copy()
+    base_pesl.DATA = pd.to_datetime(base_pesl.DATA,format='%Y-%m-%d')
     pesl = base_pesl[(base_pesl.DATA >= mes_inicio.strftime('%m-%Y'))&(base_pesl.DATA < mes_fim)]#.sum(numeric_only=True)
     pesl = pesl.groupby(pesl.DATA.dt.year).sum(numeric_only=True).reset_index()
     vinculado = base_pesl.groupby(base_pesl.DATA.dt.year).sum(numeric_only=True).reset_index()
@@ -142,7 +111,7 @@ def calculo_pesl(data):
     tabela['Vinculado']= tabela['PESL'] - tabela['Não Vinculado']
     tabela.loc['Total'] = tabela[tabela.columns[1:]].sum(numeric_only=True) #tabela.sum(numeric_only=True)
     return tabela[['Data','Não Vinculado','Vinculado','PESL']].fillna('Total')
-
+    
 def tela_pesl():
     tela_pesl = html.Div(children=[
         dbc.Row([
